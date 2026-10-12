@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbfcff">
+  <meta name="description" content="Clines keeps your people in one place. Download Clines for Windows or Android, or explore the documentation.">
+  <title>Clines — Your people, in one place</title>
+  <style>
+    :root{
+      color-scheme:light;
+      --ink:#171927;--muted:#656b7c;--line:#e9ebf2;--soft:#f6f8ff;--blue:#5965f2;--blue2:#7884ff;
+      --cyan:#7bd9f4;--lilac:#dcdcff;--mint:#d8f8e9;--shadow:0 24px 70px rgba(35,43,92,.10);
+      --radius:28px;--ease:cubic-bezier(.2,.8,.2,1)
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:90px}
+    body{margin:0;background:#fff;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:-.025em;overflow-x:hidden}
+    body.modal-open{overflow:hidden}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit;letter-spacing:inherit}
+    button,a{-webkit-tap-highlight-color:transparent}
+    button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #8490ff;outline-offset:4px}
+    .wrap{width:min(1160px,calc(100% - 44px));margin-inline:auto}
+    .topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(231,233,241,.8)}
+    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+    .brand{display:inline-flex;align-items:center;gap:11px;font-size:20px;font-weight:850;letter-spacing:-.055em}
+    .brand-mark{display:grid;place-items:center;width:37px;height:37px;border-radius:13px;color:white;background:linear-gradient(145deg,#7c87ff,#5058dc);box-shadow:0 8px 18px rgba(89,101,242,.26)}
+    .brand-mark svg{width:22px;height:22px}
+    .nav-links{display:flex;align-items:center;gap:30px;color:#5d6273;font-size:13px;font-weight:650}
+    .nav-links a{transition:color .2s}.nav-links a:hover{color:var(--blue)}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:0;border-radius:13px;padding:13px 18px;min-height:45px;font-size:13px;font-weight:750;cursor:pointer;transition:transform .22s var(--ease),box-shadow .22s var(--ease),background .22s var(--ease);white-space:nowrap}
+    .btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(0) scale(.98)}
+    .btn-primary{background:var(--blue);color:white;box-shadow:0 8px 18px rgba(89,101,242,.22)}.btn-primary:hover{background:#4855e8;box-shadow:0 12px 26px rgba(89,101,242,.3)}
+    .btn-light{background:#f4f5fb;color:#25283b}.btn-light:hover{background:#ebedfa}
+    .btn-outline{background:white;border:1px solid var(--line);color:#25283b}.btn-outline:hover{border-color:#c7cbf7;background:#fafaff}
+    .btn svg{width:16px;height:16px;flex:none}
+    .hero{position:relative;padding:88px 0 76px;isolation:isolate;overflow:hidden}
+    .hero:before{content:"";position:absolute;width:710px;height:710px;right:-210px;top:-230px;z-index:-2;border-radius:50%;background:radial-gradient(circle,rgba(226,229,255,.75) 0,rgba(242,244,255,.44) 42%,rgba(255,255,255,0) 70%);pointer-events:none}
+    .hero:after{content:"";position:absolute;width:360px;height:360px;left:-230px;bottom:-190px;z-index:-2;border-radius:50%;background:radial-gradient(circle,rgba(205,246,252,.48),transparent 68%);pointer-events:none}
+    .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:48px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;padding:7px 11px;border:1px solid #e9eaff;border-radius:99px;background:rgba(255,255,255,.8);color:#565fd9;font-size:11px;font-weight:800;letter-spacing:.055em;text-transform:uppercase}
+    .live-dot{width:7px;height:7px;border-radius:50%;background:#5bd49e;box-shadow:0 0 0 4px rgba(91,212,158,.15);animation:pulse 2s ease-in-out infinite}
+    h1{margin:24px 0 19px;font-size:clamp(46px,6vw,74px);line-height:.99;letter-spacing:-.075em;font-weight:850;max-width:620px}
+    .gradient-text{background:linear-gradient(100deg,#565ff0 12%,#7778f6 48%,#39b9d9 95%);color:transparent;background-clip:text;-webkit-background-clip:text}
+    .hero-copy{max-width:495px;font-size:17px;line-height:1.78;letter-spacing:-.02em;color:#676c7d;margin:0 0 29px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:11px;align-items:center}
+    .hero-actions .btn{min-height:52px;padding:0 20px;font-size:14px;border-radius:15px}
+    .helper{display:flex;align-items:center;gap:9px;color:#777c8c;font-size:11px;margin-top:21px;letter-spacing:0}
+    .helper svg{width:16px;height:16px;color:#6cbf9c}
+    .hero-visual{position:relative;min-height:475px;display:grid;place-items:center;perspective:1200px}
+    .orb{position:absolute;border-radius:50%;filter:blur(1px);pointer-events:none}
+    .orb-one{width:280px;height:280px;right:1%;top:8%;background:radial-gradient(circle at 40% 35%,rgba(164,176,255,.34),rgba(220,230,255,.08) 66%,transparent 72%);animation:drift 9s ease-in-out infinite}
+    .orb-two{width:220px;height:220px;left:2%;bottom:4%;background:radial-gradient(circle at center,rgba(151,233,244,.28),rgba(223,250,253,0) 72%);animation:drift 10s ease-in-out -3s infinite}
+    .chat-window{position:relative;z-index:2;width:min(410px,90%);border:1px solid rgba(227,230,241,.94);border-radius:25px;background:rgba(255,255,255,.91);box-shadow:0 32px 90px rgba(55,65,135,.16),0 3px 12px rgba(25,30,70,.035);overflow:hidden;transform:rotateY(-7deg) rotateX(2deg);transition:transform .35s var(--ease)}
+    .chat-window:hover{transform:rotateY(0) rotateX(0) translateY(-4px)}
+    .window-top{height:57px;border-bottom:1px solid #f0f1f7;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+    .window-brand{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:800;letter-spacing:-.02em}
+    .mini-mark{width:25px;height:25px;border-radius:8px;background:linear-gradient(145deg,#7c87ff,#5058dc);display:grid;place-items:center;color:#fff}
+    .mini-mark svg{width:15px;height:15px}
+    .window-dots{display:flex;gap:5px}.window-dots i{width:6px;height:6px;border-radius:50%;background:#e4e6ef;display:block}
+    .window-body{display:grid;grid-template-columns:116px 1fr;min-height:310px}
+    .side{border-right:1px solid #f0f1f7;padding:16px 11px;background:linear-gradient(180deg,#fff,#fcfcff)}
+    .side-label{font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:#a1a5b5;font-weight:800;padding:0 8px 10px}
+    .side-item{display:flex;align-items:center;gap:7px;font-size:9px;color:#767b8d;padding:9px 8px;border-radius:9px;margin-bottom:3px}
+    .side-item.active{background:#f0f1ff;color:#565fe0;font-weight:800}.side-icon{width:18px;height:18px;border-radius:6px;background:#f1f2f9;display:grid;place-items:center;flex:none}.side-item.active .side-icon{background:#dfe2ff}.side-icon svg{width:11px;height:11px}
+    .chat-area{padding:17px 15px 15px;min-width:0}
+    .chat-head{display:flex;align-items:center;gap:9px;padding-bottom:15px;border-bottom:1px solid #f2f3f8}
+    .avatar{width:30px;height:30px;display:grid;place-items:center;border-radius:11px;color:#454a78;font-weight:850;font-size:10px;flex:none;background:linear-gradient(145deg,#eeeaff,#d9f7f6)}
+    .chat-head strong{font-size:10px;display:block;letter-spacing:-.015em}.chat-head small{font-size:8px;color:#858a9b;display:block;margin-top:3px;letter-spacing:0}
+    .online{margin-left:auto;width:7px;height:7px;background:#51d59a;border-radius:50%;box-shadow:0 0 0 4px #e4fbf0}
+    .date-sep{text-align:center;color:#b0b4c1;font-size:8px;margin:14px 0}
+    .message{font-size:9px;line-height:1.55;padding:10px 11px;border-radius:12px;max-width:82%;margin-bottom:8px;letter-spacing:0}
+    .message.in{background:#f4f5fa;color:#5c6174;border-top-left-radius:4px}.message.out{background:#5d67ed;color:#fff;margin-left:auto;border-top-right-radius:4px}
+    .message-meta{text-align:right;color:#a4a8b7;font-size:8px;margin-top:-4px;margin-bottom:10px;letter-spacing:0}
+    .input-mock{margin-top:16px;border:1px solid #eceef5;border-radius:10px;height:33px;display:flex;align-items:center;padding:0 10px;color:#b4b8c6;font-size:8px;gap:7px;letter-spacing:0}.input-mock svg{width:12px;height:12px}
+    .float-card{position:absolute;z-index:4;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.94);border:1px solid rgba(231,233,246,.95);border-radius:16px;padding:12px 15px;box-shadow:0 17px 38px rgba(51,59,118,.11);animation:float 5s ease-in-out infinite}
+    .float-card strong{font-size:10px;display:block;letter-spacing:-.02em}.float-card span{display:block;font-size:8px;color:#858a9b;margin-top:3px;letter-spacing:0}
+    .float-icon{width:33px;height:33px;border-radius:11px;display:grid;place-items:center;flex:none}.float-icon svg{width:17px;height:17px}
+    .float-friend{left:-1%;top:18%;animation-delay:-1.5s}.float-code{right:-2%;bottom:16%;animation-delay:-3s}.float-code .float-icon{background:#e7e8ff;color:#575fe1}.float-friend .float-icon{background:#ddf9ed;color:#26a878}
+    .symbol{position:absolute;z-index:1;display:grid;place-items:center;pointer-events:none;animation:float 7s ease-in-out infinite}.symbol svg{width:100%;height:100%}.sym-star{width:33px;height:33px;right:6%;top:7%;color:#8790ff;animation:spin-float 14s linear infinite}.sym-cross{width:24px;height:24px;left:7%;bottom:22%;color:#64cbdc;animation-delay:-4s}.sym-circle{width:20px;height:20px;right:12%;bottom:7%;border:3px solid #c9cdfc;border-radius:50%;animation-delay:-2s}
+    .trust-row{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-top:36px;color:#84899a;font-size:10px;letter-spacing:0}.trust-item{display:inline-flex;align-items:center;gap:7px}.trust-item svg{width:14px;height:14px;color:#7a83ec}
+    .section{padding:92px 0}.section-muted{background:#fbfcff;border-top:1px solid #f2f3f8;border-bottom:1px solid #f2f3f8}
+    .section-head{text-align:center;max-width:650px;margin:0 auto 44px}.section-kicker{font-size:11px;color:#5d66ea;font-weight:850;text-transform:uppercase;letter-spacing:.12em}
+    h2{font-size:clamp(32px,4vw,46px);line-height:1.08;letter-spacing:-.065em;margin:14px 0 14px;font-weight:830}
+    .section-head p{font-size:15px;line-height:1.75;color:#767b8b;margin:0;letter-spacing:-.015em}
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+    .feature-card{position:relative;border:1px solid #eceef5;border-radius:22px;padding:25px 24px 27px;background:white;transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s ease;overflow:hidden}
+    .feature-card:hover{transform:translateY(-6px);box-shadow:0 18px 45px rgba(43,52,109,.07);border-color:#dcdfff}
+    .feature-icon{width:46px;height:46px;display:grid;place-items:center;border-radius:15px;margin-bottom:21px}.feature-icon svg{width:22px;height:22px}
+    .fi-violet{background:#ededff;color:#5e64e8}.fi-mint{background:#e3fbf0;color:#28a879}.fi-blue{background:#e3f8ff;color:#219cc4}
+    .feature-card h3{font-size:17px;letter-spacing:-.045em;margin:0 0 10px}.feature-card p{font-size:13px;line-height:1.75;color:#777c8d;margin:0;letter-spacing:-.01em}
+    .feature-arrow{position:absolute;right:22px;top:22px;width:18px;height:18px;color:#b7bbca;transition:transform .2s,color .2s}.feature-card:hover .feature-arrow{transform:translate(2px,-2px);color:#5e64e8}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;counter-reset:steps}
+    .step{position:relative;padding:0 24px;text-align:center}.step:not(:last-child):after{content:"";position:absolute;top:33px;left:calc(50% + 47px);width:calc(100% - 94px);border-top:1px dashed #d9dcf0}
+    .step-number{position:relative;z-index:1;width:66px;height:66px;display:grid;place-items:center;margin:0 auto 21px;border-radius:22px;background:linear-gradient(145deg,#f0f1ff,#f8fbff);border:1px solid #e7e9ff;color:#5d66eb;font-size:19px;font-weight:850;box-shadow:0 8px 20px rgba(72,84,205,.07)}
+    .step h3{font-size:16px;margin:0 0 9px;letter-spacing:-.035em}.step p{font-size:13px;line-height:1.75;color:#7a7f8e;margin:0;letter-spacing:-.01em}
+    .download-panel{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr auto;align-items:center;gap:26px;padding:36px 40px;border:1px solid #e6e8ff;border-radius:26px;background:linear-gradient(110deg,#f6f7ff,#fbfdff 60%,#f0fcff)}
+    .download-panel:after{content:"✦";position:absolute;right:220px;top:-30px;font-size:150px;color:rgba(116,126,245,.07);transform:rotate(12deg);pointer-events:none}
+    .download-panel h2{font-size:clamp(28px,3.5vw,39px);margin:0 0 10px}.download-panel p{margin:0;color:#777c8d;font-size:13px;line-height:1.75;max-width:540px}
+    .docs-layout{display:grid;grid-template-columns:.7fr 1.3fr;gap:60px;align-items:start}
+    .docs-intro h2{font-size:39px}.docs-intro p{font-size:14px;line-height:1.8;color:#777c8d;margin:0 0 21px}
+    .docs-links{display:flex;flex-direction:column;gap:10px;margin-top:22px}.docs-links a{display:flex;align-items:center;gap:9px;width:fit-content;font-size:12px;font-weight:750;color:#5d66e8}.docs-links a svg{width:15px;height:15px}
+    .faq{border-top:1px solid var(--line)}details{border-bottom:1px solid var(--line);padding:0}summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:18px;padding:19px 0;font-size:14px;font-weight:750;letter-spacing:-.025em}summary::-webkit-details-marker{display:none}.faq-plus{width:24px;height:24px;display:grid;place-items:center;border-radius:8px;background:#f2f3ff;color:#5e66e9;flex:none;transition:transform .2s}.faq-plus svg{width:13px;height:13px}details[open] .faq-plus{transform:rotate(45deg)}.faq-answer{padding:0 35px 18px 0;font-size:12px;line-height:1.8;color:#777c8d;letter-spacing:-.005em}.faq-answer a{color:#5d66e8;text-decoration:underline;text-underline-offset:3px}
+    footer{border-top:1px solid #edf0f6;padding:29px 0 34px}.footer-row{display:flex;justify-content:space-between;align-items:center;gap:20px}.footer-left{display:flex;align-items:center;gap:11px}.footer-left .brand-mark{width:31px;height:31px;border-radius:10px}.footer-left .brand-mark svg{width:18px;height:18px}.footer-left strong{font-size:13px}.footer-left small{display:block;color:#9296a5;font-size:10px;margin-top:3px;letter-spacing:0}.footer-links{display:flex;gap:21px;color:#767b8b;font-size:11px}.footer-links a:hover{color:var(--blue)}
+    .modal{position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:22px;background:rgba(27,31,58,.35);backdrop-filter:blur(8px)}.modal.open{display:grid;animation:fade-in .2s ease}.modal-dialog{width:min(540px,100%);border-radius:27px;background:white;box-shadow:0 35px 100px rgba(20,27,68,.24);padding:28px;position:relative;animation:modal-in .28s var(--ease)}
+    .modal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}.modal-top h2{font-size:29px;margin:0 0 7px}.modal-top p{font-size:12px;color:#777c8d;line-height:1.6;margin:0}.close-modal{width:34px;height:34px;display:grid;place-items:center;border:1px solid #eceef5;background:white;border-radius:11px;cursor:pointer;color:#626779;flex:none;transition:background .2s}.close-modal:hover{background:#f3f4fa}.close-modal svg{width:16px;height:16px}
+    .platforms{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:25px}.platform-card{padding:19px;border:1px solid #e9ebf3;border-radius:18px;transition:border-color .2s,transform .2s,box-shadow .2s}.platform-card:hover{border-color:#cdd1ff;transform:translateY(-3px);box-shadow:0 12px 30px rgba(66,75,152,.08)}.platform-logo{width:43px;height:43px;border-radius:14px;display:grid;place-items:center;background:#f1f2ff;color:#5b64e9;margin-bottom:15px}.platform-logo.android{background:#e5faee;color:#20a76f}.platform-logo svg{width:23px;height:23px}.platform-card h3{font-size:15px;margin:0 0 7px;letter-spacing:-.04em}.platform-card p{font-size:11px;line-height:1.7;color:#818697;margin:0 0 17px;min-height:38px;letter-spacing:0}.platform-card .btn{width:100%;padding:11px 9px;font-size:11px;min-height:41px}.modal-note{font-size:10px;line-height:1.65;color:#9296a5;margin:17px 0 0;letter-spacing:0}
+    .toast{position:fixed;z-index:120;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#20243a;color:white;border-radius:12px;padding:12px 16px;font-size:12px;box-shadow:0 10px 35px rgba(0,0,0,.15);transition:opacity .2s,transform .2s}.toast.show{opacity:1;transform:translate(-50%,0)}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .65s var(--ease),transform .65s var(--ease)}.reveal.visible{opacity:1;transform:translateY(0)}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(91,212,158,.12)}50%{box-shadow:0 0 0 7px rgba(91,212,158,.02)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+    @keyframes spin-float{0%{transform:rotate(0) translateY(0)}50%{transform:rotate(180deg) translateY(-7px)}100%{transform:rotate(360deg) translateY(0)}}
+    @keyframes drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-12px,15px) scale(1.04)}}
+    @keyframes fade-in{from{opacity:0}to{opacity:1}}@keyframes modal-in{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @media(max-width:980px){.hero{padding-top:68px}.hero-grid{grid-template-columns:1fr;gap:25px}.hero-copy{max-width:610px}.hero-visual{min-height:450px}.chat-window{width:min(430px,85%)}.float-friend{left:5%}.float-code{right:4%}.docs-layout{gap:35px}.nav-links{gap:19px}}
+    @media(max-width:720px){.wrap{width:min(100% - 32px,560px)}.nav{height:68px}.nav-links{display:none}.nav-actions .btn{min-height:41px;padding:10px 13px}.brand{font-size:18px}.hero{padding:54px 0 53px}.hero-grid{gap:14px}h1{font-size:clamp(43px,12vw,62px);margin-top:20px}.hero-copy{font-size:15px;line-height:1.7}.hero-visual{min-height:390px;margin-inline:-9px}.chat-window{width:min(400px,86%)}.window-body{grid-template-columns:95px 1fr;min-height:292px}.side{padding-inline:8px}.side-item{font-size:8px;gap:5px;padding:8px 5px}.float-card{padding:10px 11px;gap:8px}.float-friend{left:0;top:12%}.float-code{right:0;bottom:10%}.float-card strong{font-size:9px}.float-card span{font-size:7px}.trust-row{gap:13px;margin-top:27px}.section{padding:68px 0}.section-head{margin-bottom:29px}.feature-grid{grid-template-columns:1fr;gap:12px}.feature-card{padding:22px}.feature-icon{margin-bottom:15px}.steps{grid-template-columns:1fr;gap:29px}.step{padding:0 18px}.step:not(:last-child):after{top:68px;left:50%;width:0;height:23px;border-top:0;border-left:1px dashed #d9dcf0}.download-panel{grid-template-columns:1fr;padding:27px 23px;gap:19px}.download-panel .btn{width:fit-content}.docs-layout{grid-template-columns:1fr;gap:30px}.docs-intro h2{font-size:34px}.footer-row{align-items:flex-start;flex-direction:column}.footer-links{flex-wrap:wrap;gap:15px}.platforms{grid-template-columns:1fr}.platform-card{display:grid;grid-template-columns:43px 1fr;column-gap:13px;padding:15px}.platform-logo{grid-row:span 2;margin:0}.platform-card h3{align-self:end}.platform-card p{min-height:0;margin-bottom:13px}.platform-card .btn{grid-column:1/-1}.modal-dialog{padding:22px}.modal-top h2{font-size:26px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Clines home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2.7 14.6 9.4 21.3 12 14.6 14.6 12 21.3 9.4 14.6 2.7 12 9.4 9.4 12 2.7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.1" fill="currentColor"/></svg></span>
+        Clines
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#features">Features</a><a href="#how-it-works">How it works</a><a href="#docs">Docs</a>
+      </nav>
+      <div class="nav-actions"><a class="btn btn-light" href="#docs">Read docs</a><button class="btn btn-primary open-download" type="button">Download <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-content">
+          <div class="eyebrow"><span class="live-dot"></span> Clines v1.0.6 is here</div>
+          <h1>Your people,<br><span class="gradient-text">in one place.</span></h1>
+          <p class="hero-copy">Good conversations should feel effortless. Stay close with friend codes, group chats, voice calls, photos, and the moments you want to share — all in Clines.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary open-download" type="button">Get Clines <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <a class="btn btn-outline" href="#features">Explore Clines <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+          <div class="helper"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4.2 4.2L19 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Available for Windows and Android · Free to download</div>
+          <div class="trust-row" aria-label="Clines highlights">
+            <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5.5 11 4v7H4v-5.5Zm9-1.9 7-1.1V11h-7V3.6ZM4 13h7v7l-7-1.5V13Zm9 0h7v9l-7-1.1V13Z" fill="currentColor"/></svg> Windows</span>
+            <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 4 2 3m8-3-2 3M5 9c0-2 3-3 7-3s7 1 7 3v8H5V9Zm3 11v-3m8 3v-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="9" cy="10" r=".8" fill="currentColor"/><circle cx="15" cy="10" r=".8" fill="currentColor"/></svg> Android</span>
+            <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m16-11a4 4 0 0 1 0 8m2 3v-2a4 4 0 0 0-3-3.87M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg> Friend codes</span>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-label="Illustration of a Clines conversation">
+          <div class="orb orb-one"></div><div class="orb orb-two"></div>
+          <div class="symbol sym-star" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M20 2 24.8 15.2 38 20 24.8 24.8 20 38 15.2 24.8 2 20 15.2 15.2 20 2Z" fill="currentColor"/></svg></div>
+          <div class="symbol sym-cross" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div><div class="symbol sym-circle" aria-hidden="true"></div>
+          <div class="float-card float-friend"><div class="float-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><strong>Friend request accepted</strong><span>You’re connected now</span></div></div>
+          <div class="chat-window" id="chatCard">
+            <div class="window-top"><div class="window-brand"><span class="mini-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2.7 14.6 9.4 21.3 12 14.6 14.6 12 21.3 9.4 14.6 2.7 12 9.4 9.4 12 2.7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span> Clines <span style="font-size:8px;color:#8e93a4;font-weight:600">MESSAGES</span></div><div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div></div>
+            <div class="window-body">
+              <aside class="side" aria-hidden="true"><div class="side-label">Workspace</div><div class="side-item active"><span class="side-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H9l-5 4V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span> Messages</div><div class="side-item"><span class="side-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m16-11a4 4 0 0 1 0 8M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="2"/></svg></span> Friends</div><div class="side-item"><span class="side-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 3 8l9 5 9-5-9-5Zm-9 9 9 5 9-5m-18 5 9 5 9-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span> Groups</div><div class="side-label" style="margin-top:19px">Your space</div><div class="side-item"><span class="side-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18m-9-9h18" stroke="currentColor" stroke-width="2"/></svg></span> Add friend</div></aside>
+              <div class="chat-area"><div class="chat-head"><div class="avatar">AJ</div><div><strong>Alex Johnson</strong><small>online now</small></div><span class="online"></span></div><div class="date-sep">TODAY, 4:32 PM</div><div class="message in">Hey! Did you see the photos from yesterday? 📸</div><div class="message out">Just opened them — they look amazing!</div><div class="message in">We should plan the next meetup soon ✨</div><div class="message-meta">Seen · 4:34 PM</div><div class="message out">Absolutely. I’ll make a group for everyone.</div><div class="input-mock"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Write a message… <span style="margin-left:auto">☺　➤</span></div></div>
+            </div>
+          </div>
+          <div class="float-card float-code"><div class="float-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m16-11a4 4 0 0 1 0 8m2 3v-2a4 4 0 0 0-3-3.87M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div><div><strong>Make a new connection</strong><span>One friend code away</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-muted" id="features">
+      <div class="wrap">
+        <div class="section-head reveal"><span class="section-kicker">Made for your circle</span><h2>Everything clicks when<br>your people are here.</h2><p>From one-to-one catch-ups to a whole group making plans, Clines keeps your conversations close and easy to find.</p></div>
+        <div class="feature-grid">
+          <article class="feature-card reveal"><svg class="feature-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="feature-icon fi-violet"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m16-11a4 4 0 0 1 0 8m2 3v-2a4 4 0 0 0-3-3.87M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><h3>Friend codes, made easy</h3><p>Connect with your people using your unique friend code and keep your circle growing at your pace.</p></article>
+          <article class="feature-card reveal"><svg class="feature-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="feature-icon fi-mint"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><h3>Conversations with context</h3><p>Chat, react, reply, share media, and bring your group together without losing the flow.</p></article>
+          <article class="feature-card reveal"><svg class="feature-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="feature-icon fi-blue"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 21h8m-4-4v4M7 8h4m-4 3h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><h3>Your devices, your choice</h3><p>Install the Windows app or Android APK and stay connected from the device that fits your day.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how-it-works">
+      <div class="wrap">
+        <div class="section-head reveal"><span class="section-kicker">Start in a few steps</span><h2>Your circle is closer<br>than you think.</h2><p>No complicated setup. Get the app, create your account, and say hello.</p></div>
+        <div class="steps">
+          <article class="step reveal"><div class="step-number">01</div><h3>Choose your device</h3><p>Download the Windows installer or the Android APK from the official release.</p></article>
+          <article class="step reveal"><div class="step-number">02</div><h3>Create your account</h3><p>Pick your Clines username, set a password, and make your profile yours.</p></article>
+          <article class="step reveal"><div class="step-number">03</div><h3>Connect with friends</h3><p>Share a friend code, start a conversation, or bring everyone into a group.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-muted" id="download-cta">
+      <div class="wrap"><div class="download-panel reveal"><div><span class="section-kicker">Clines v1.0.6</span><h2>Ready to bring your people together?</h2><p>Pick your device and get the latest Clines release. The download buttons always point to the latest published files.</p></div><button type="button" class="btn btn-primary open-download">Choose your device <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
+    </section>
+
+    <section class="section" id="docs">
+      <div class="wrap docs-layout">
+        <div class="docs-intro reveal"><span class="section-kicker">Docs & help</span><h2>Everything you need to get going.</h2><p>Installation steps, account basics, and update notes — in one place. Start here if this is your first install or you’re moving to a newer version.</p><div class="docs-links"><a href="https://github.com/43r5fer/JustPlay#readme" target="_blank" rel="noopener noreferrer">Open full documentation <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 4h6v6m-11 4L20 4M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a href="https://github.com/43r5fer/JustPlay/releases" target="_blank" rel="noopener noreferrer">Browse all releases <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 4h6v6m-11 4L20 4M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div>
+        <div class="faq reveal" aria-label="Frequently asked questions">
+          <details open><summary>How do I install Clines on Windows?<span class="faq-plus"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary><div class="faq-answer">Choose <strong>Windows</strong> in the download window, open the downloaded <strong>Clines-Setup.exe</strong>, and follow the installer. Windows may show its usual security prompt for apps downloaded from the internet.</div></details>
+          <details><summary>How do I install the Android APK?<span class="faq-plus"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary><div class="faq-answer">Choose <strong>Android APK</strong>, download <strong>Clines.apk</strong>, then open it and approve installation when Android asks. Depending on your settings, you may need to allow your browser or file manager to install apps. Only install APKs you trust.</div></details>
+          <details><summary>How do updates work?<span class="faq-plus"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary><div class="faq-answer">Clines checks for required updates in supported app builds. Windows downloads the update and restarts to install it; Android downloads the APK and opens Android’s installer for approval. Successful in-place Android upgrades require a consistent app signing key.</div></details>
+          <details><summary>What changed in v1.0.6?<span class="faq-plus"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary><div class="faq-answer">Version 1.0.6 is a UI initialization hotfix. It restores the <strong>Blocked users</strong> sidebar button and prevents that event hookup from interrupting the rest of the app’s button setup. <a href="https://github.com/43r5fer/JustPlay/releases" target="_blank" rel="noopener noreferrer">See release details</a>.</div></details>
+          <details><summary>Can I use Clines in a browser?<span class="faq-plus"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></summary><div class="faq-answer">Yes. You can open the <a href="https://43r5fer.github.io/JustPlay/app/" target="_blank" rel="noopener noreferrer">Clines web app</a> in a supported browser. Messaging and media sync require an internet connection.</div></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap footer-row"><div class="footer-left"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2.7 14.6 9.4 21.3 12 14.6 14.6 12 21.3 9.4 14.6 2.7 12 9.4 9.4 12 2.7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><div><strong>Clines</strong><small>Your people, in one place.</small></div></div><div class="footer-links"><a href="#features">Features</a><a href="#docs">Docs & help</a><a href="https://github.com/43r5fer/JustPlay" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://43r5fer.github.io/JustPlay/app/" target="_blank" rel="noopener noreferrer">Web app</a></div></div></footer>
+
+  <div class="modal" id="downloadModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <div class="modal-dialog" role="document">
+      <div class="modal-top"><div><h2 id="modalTitle">Choose your device</h2><p id="modalDesc">Get the right Clines download for your device.</p></div><button class="close-modal" type="button" aria-label="Close download window"><svg viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+      <div class="platforms">
+        <article class="platform-card"><div class="platform-logo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 5.5 10.5 4v7H3V5.5Zm9.5-1.8L21 2v9h-8.5V3.7ZM3 13h7.5v7L3 18.5V13Zm9.5 0H21v9l-8.5-1.1V13Z" fill="currentColor"/></svg></div><h3>Windows</h3><p>For Windows 10 and Windows 11 desktop PCs.</p><a class="btn btn-primary" href="https://github.com/43r5fer/JustPlay/releases/latest/download/Clines-Setup.exe">Download .EXE <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></article>
+        <article class="platform-card"><div class="platform-logo android"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 4 2 3m8-3-2 3M5 9c0-2 3-3 7-3s7 1 7 3v8H5V9Zm2 11v-3m10 3v-3M2.5 10v5m19-5v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="9" cy="10" r=".8" fill="currentColor"/><circle cx="15" cy="10" r=".8" fill="currentColor"/></svg></div><h3>Android</h3><p>Direct APK for Android phones and tablets.</p><a class="btn btn-outline" href="https://github.com/43r5fer/JustPlay/releases/latest/download/Clines.apk">Download .APK <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></article>
+      </div>
+      <p class="modal-note">Downloads come from the official Clines GitHub releases. Android may ask you to approve installation from your browser or file manager.</p>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const modal = document.getElementById('downloadModal');
+      const closeButton = modal.querySelector('.close-modal');
+      const openButtons = document.querySelectorAll('.open-download');
+      let previousFocus = null;
+
+      function openModal() {
+        previousFocus = document.activeElement;
+        modal.classList.add('open');
+        document.body.classList.add('modal-open');
+        closeButton.focus();
+      }
+      function closeModal() {
+        modal.classList.remove('open');
+        document.body.classList.remove('modal-open');
+        if (previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus();
+      }
+      openButtons.forEach(button => button.addEventListener('click', openModal));
+      closeButton.addEventListener('click', closeModal);
+      modal.addEventListener('click', event => { if (event.target === modal) closeModal(); });
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && modal.classList.contains('open')) closeModal();
+        if (event.key === 'Tab' && modal.classList.contains('open')) {
+          const focusables = [...modal.querySelectorAll('a[href],button:not([disabled])')];
+          if (!focusables.length) return;
+          const first = focusables[0], last = focusables[focusables.length - 1];
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
+      });
+
+      // Reveal sections on scroll; falls back to visible content if observers are unavailable.
+      const revealItems = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+          });
+        }, { threshold: 0.12 });
+        revealItems.forEach(item => observer.observe(item));
+      } else revealItems.forEach(item => item.classList.add('visible'));
+
+      // Gentle pointer parallax for the decorative hero symbols, disabled on touch/reduced motion.
+      const heroVisual = document.querySelector('.hero-visual');
+      const chatCard = document.getElementById('chatCard');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (heroVisual && chatCard && !reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        heroVisual.addEventListener('pointermove', event => {
+          const rect = heroVisual.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width - .5;
+          const y = (event.clientY - rect.top) / rect.height - .5;
+          chatCard.style.transform = `rotateY(${-7 + x * 7}deg) rotateX(${2 - y * 4}deg) translateY(${y * -4}px)`;
+        });
+        heroVisual.addEventListener('pointerleave', () => { chatCard.style.transform = ''; });
+      }
+    })();
+  </script>
+</body>
+</html>
